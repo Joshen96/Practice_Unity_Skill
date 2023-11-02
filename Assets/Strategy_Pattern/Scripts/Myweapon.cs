@@ -13,6 +13,6 @@ public class Myweapon
 
     public void Shoot()
     {
-        weapon.Shoot();
+       // weapon.Shoot();
     }
 }

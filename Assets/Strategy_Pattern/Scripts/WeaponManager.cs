@@ -2,32 +2,74 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum WeaponType
+{
+    Bullet,
+    Arrow,
+    Missile
+}
 public class WeaponManager : MonoBehaviour
 {
+    public GameObject _arrow;
+    public GameObject _bullet;
+    public GameObject _missile;
 
-    Myweapon myweapon;
+    private GameObject MyWeapon;
+
+    private IWeapon weapon;
+
+    private void setWeaponType(WeaponType _weapontype)
+    {
+        Component c = gameObject.GetComponent<IWeapon>() as Component;
+
+        if (c != null)
+        {
+            Destroy(c);
+        }
+        switch (_weapontype)
+        {
+            case WeaponType.Bullet:
+               weapon= gameObject.AddComponent<Bullet>();
+                MyWeapon = _bullet;
+                break;
+            case WeaponType.Arrow:
+               weapon = gameObject.AddComponent<Arrow>();
+                MyWeapon = _arrow;
+                break;
+            case WeaponType.Missile:
+                weapon = gameObject.AddComponent<Missile>();
+                MyWeapon = _missile;
+                break;
+            default:
+               weapon = gameObject.AddComponent<Bullet>();
+                MyWeapon = _bullet;
+                break;
+        }
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
-        myweapon = new Myweapon();
-        myweapon.Setweapon(new Bullet());
+        setWeaponType(WeaponType.Bullet);
     }
 
    public void ChangeBullet()
     {
-        myweapon.Setweapon(new Bullet());
+        setWeaponType(WeaponType.Bullet);
     }
     public void ChangeArrow()
     {
-        myweapon.Setweapon(new Arrow());
+        setWeaponType(WeaponType.Arrow);
     }
     public void ChangeMissile()
     {
-        myweapon.Setweapon(new Missile());
+        setWeaponType(WeaponType.Missile);
     }
     public void fire()
     {
-        myweapon.Shoot();
+        weapon.Shoot(MyWeapon);
     }
 
 }
